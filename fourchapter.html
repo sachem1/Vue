@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 第四章</title>
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+<body>
+<div id="app">    
+    <a v-bind:href="url">链接</a>
+    <img v-bind:src="imgUrl" width="60px" height="120px">
+    <div class="static" :class="{'active':isActive}">123</div>
+    <br>
+    <div class="new" :class="[activeCss,errorCss]">456</div>
+
+
+    <div :style="styles">
+        测试
+        <button :class="classes">样式</button>
+    </div>
+</div>
+
+<script>
+    var mydata={
+        date: new Date(),
+        isActive:true,
+        url:'http://baidu.com',
+        imgUrl:'https://image-static.segmentfault.com/350/409/3504099265-580628fd03258',
+        activeCss:'active',
+        errorCss:'error',
+        size:'large',
+        disabled:true,
+        styles:{
+            color:'red',
+            fontSize:12+'px'
+        }
+    }
+    
+    var app=new Vue({
+        el: '#app',
+        data: mydata,
+        computed: {
+            classes:function(){
+                return [
+                    'btn',
+                    {
+                        ['btn-'+this.size]:this.size!=='',
+                        ['btn-disabled']:this.disabled
+                    }
+                ];
+            }
+        },
+    });
+</script>
+<style>
+    .static{
+        width: 120px;
+        height: 120px;
+    }
+    .new {
+        width:80px;
+        height: 80px;
+    }
+    .active{
+        background-color: beige;
+    }
+    .error{
+        color: brown
+    }
+</style>
+<!-- 示例中的样式btn 会始终应用，当数据size 不为空时，会应用样式前缀btn －， 后加size 的值：
+当数据disabled 为真时，会应用样式btn-disabled ，所以该示例最终渲染的结果为：
+<button class= ” btn btn-large btn- disabled” ></ button>
+使用计算属性给元素动态设置类名，在业务中经常用到，尤其是在写复用的组件时，所以在
+开发过程中，如果表达式较长或逻辑复杂，应该尽可能地优先使用计算属性。 -->
+</body>
+</html>

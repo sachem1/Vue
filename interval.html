@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 双向绑定</title>
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+<body>
+<div id="app">    
+    <p>当前时间:{{ date|formatDate }}</p> 
+    <!--<span >{{date}}不是被编译!</span>-->
+    <br/>
+    <span v-pre>{{date}}不是被编译!</span>
+    <!--<span v-html="link"></sapn>-->
+    <br/>
+    <span>
+        {{number/2}}
+        {{isOk ? "确定":"取消"}}
+    </span>
+    <br/>    
+    {{link.split(',').reverse().join('--')}}
+    <p v-if="show">显示这段文本!</p>
+
+    <br/>
+    <a v-bind:href="url">百度</a>
+    <a :href="url">百度2</a>
+    <img v-bind:src="imgUrl" width="60px" height="100px">
+    <br>
+    <button v-on:click="handleClose">点击隐藏</button>
+    <button v-on:click="show=false">点击隐藏2</button>
+
+</div>
+
+<script>
+    var mydata={
+        date: new Date(),
+        link:'<a href="#">,这是一个链接</a>',
+        number:10,
+        isOk:true,
+        show:true,
+        url:'http://baidu.com',
+        imgUrl:'https://image-static.segmentfault.com/350/409/3504099265-580628fd03258'
+    }
+    var padDate = function (value ) {
+        return value < 10 ? '0' + value : value ;
+        }
+    var app=new Vue({
+        el: '#app',
+        data: mydata,
+        filters : {
+        formatDate : function (value) { 
+            //这里的value 就是需要过滤的数据
+            var date= new Date(value);
+            var year= date . getFullYear() ;
+            var month= padDate(date.getMonth() + 1) ;
+            var day= padDate(date . getDate());
+            var hours= padDate(date . getHours());
+            var minutes = padDate (date .getMinutes ());
+            var seconds = padDate (date .getSeconds ());
+            //将整理好的数据返回出去
+            return year + '-' + month +'-' + day + ' ' + hours +':'+ minutes+':' + seconds ;
+        }},
+        methods: {
+            handleClose: function () {
+                this.show = false;
+            }
+        },
+        mounted:function() {
+            var _this=this;
+            this.timer=setInterval(function(){
+                _this.date=new Date();
+            },1000);
+        },
+        beforeDestroy() {
+            if(this.timer){
+                clearInterval(this.timer);
+            }
+        },
+    })
+</script>
+</body>
+</html>

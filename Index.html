@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例</title>
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="name" placeholder="你的名字">
+    <p>你好,{{ name }}</p>
+</div>
+<script>
+    var mydata={
+        name:'ceshi'
+    }
+    var app=new Vue({
+        el: '#app',
+        data: mydata
+    })
+</script>
+</body>
+</html>
