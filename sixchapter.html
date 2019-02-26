@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue 测试实例</title>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+<!-- @input的即时输入用法 -->
+
+<body>
+    <div id="app">
+        <input type="text" @input="handleInput" placeholder="输入...">
+        <p>输入:{{ message }}</p>
+    </div>
+    <!-- 单选框,复选框,下拉框 -->
+    <div id="app2">
+        <input type="radio" v-model="picked" value="html" id="hmtl">
+        <label for="html">Html</label>
+        <input type="radio" v-model="picked" value="js" id="js">
+        <label for="js">JavaScript</label>
+        <input type="radio" v-model="picked" value="css" id="css">
+        <label for="css">Css</label>
+        <p>选择的项是:{{picked}}</p>
+
+        ------------------------<br>
+
+        <input type="checkbox" v-model="checked" id="checked">
+        <label for="checked">选择状态:{{checked}}</label>
+    </div>
+
+    <div id="app3">
+        <input type="checkbox" v-model="checked" id="html" value="html">
+        <label for="html">Html</label>
+        <input type="checkbox" v-model="checked" id="js" value="js">
+        <label for="js">JavaScript</label>
+        <input type="checkbox" v-model="checked" id="css" value="css">
+        <label for="css">Css</label>
+        <p>选择的项是:{{checked}}</p>
+
+        ----------------------------<br>
+        <select v-model="selected">
+            <option v-for="(item, index) in options" :key="index" :value="item.value">{{item.text}}</option>
+        </select>
+        <p>选择的项是:{{selected}}</p>
+
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: '',
+
+            },
+            methods: {
+                handleInput: function (e) {
+                    this.message = e.target.value;
+                }
+            },
+
+        });
+
+        var app2 = new Vue({
+            el: '#app2',
+            data: {
+                picked: 'js',
+                checked: false
+            }
+        })
+        var app3 = new Vue({
+            el: '#app3',
+            data: {
+                picked: 'js',
+                checked: ['js', 'css'],
+                selected: 'html',
+                options: [{
+                    text: 'Html',
+                    value: 'html'
+                }, {
+                    text: 'JavaScript',
+                    value: 'js'
+                }, {
+                    text: 'Css',
+                    value: 'css'
+                }]
+            }
+        })
+    </script>
+</body>
+
+</html>
