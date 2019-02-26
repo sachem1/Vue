@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue 第五章</title>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+<!-- 
+    v-cloak 会在Vue 实例结束编译时从绑定的HTML 元素上移除 
+    v-once 也是一个不需要表达式的指令，作用是定义它的元素或组件只渲染一次，包括元素或
+    组件的所有子节点。首次渲染后，不再随数据的变化重新渲染，将被视为静态内容，
+-->
+
+<body>
+    <div id="app" v-cloak>
+        <p>你好,{{ name }}</p>
+        <input type='text' v-model="status">
+        <p v-if='status === 1'>当status 为1 时显示该行</p>
+        <p v-else-if='status === 2'>当status 为2 时显示该行</p>
+        <p v-else>否则显示该行</p>
+    </div>
+    <div id="app2">
+        <input type='text' v-model="message">
+        <span v-once>{{message}}</span>
+        <span>{{message}}</span>
+    </div>
+    <!--  key='name-input'  给两个＜i nput> 元素都增加key 后， 就不会复用了，切换类型时键入的内容也会被删除 -->
+    <div id="app3">
+        <template v-if="type==='name'">
+            <label>用户名:</label>
+            <input type='text' placeholder="输入用户名" key='name-input'>
+        </template>
+        <template v-else="type==='name'">
+            <label>邮箱:</label>
+            <input type='text' placeholder="输入邮箱" key='mail-input'>
+        </template>
+        <button @click='handleToggleClick'>切换输入类型</button>
+    </div>
+    <!-- v-show 不能在<template>上使用 -->
+    <div id='app4'>
+        <p v-show="status===1">当status为1的时候显示该行</p>
+        <input type='text' v-model="status">
+    </div>
+    <!-- v-for -->
+    <div id='app5'>
+            <ul>
+                <li v-for="(item, index) in filterItems" :key="index">{{index}}--{{item.name}}</li>
+            </ul>
+            <span v-for="(item, index) in 10" :key="index">{{item}} </span>
+
+            <ul>
+                    <li v-for="(item, index) in sortItems" :key="index">{{index}}--{{item.name}}</li>
+            </ul>
+        </div>
+        <!-- 方法与事件 -->
+    <div id='app6'>
+        点击次数:{{counter}}
+        <button @click="counter++"> +1 </button>
+        <a href="http://baidu.com" @click='handleClick("禁止打开",$event)'>打开百度</a>
+    </div>
+
+    <script>
+        var app6 =new Vue({
+            el:'#app6',
+            data:
+            {
+                counter:0
+            },methods:{
+                handleClick:function(message,event){
+                    event.preventDefault();
+                    window.alert(message);
+                }
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                name: 'ceshi',
+                status: 2,
+                type: 'name'
+            },
+            methods: {
+                handleToggleClick: function () {
+                    this.status = this.status === 1 ? 1 : 2
+                }
+            },
+        });
+        var app2 = new Vue({
+            el: '#app2',
+            data: {
+                message: '123456'
+            }
+        });
+        var app3 = new Vue({
+            el: '#app3',
+            data: {
+                type: 'name'
+            },
+            methods: {
+                handleToggleClick: function () {
+                    this.type = this.type === 'name' ? 'mail' : 'name'
+                }
+            },
+        });
+
+        var app4=new Vue({
+            el:'#app4',
+            data:{
+                status:2
+            }
+        });
+
+        var app5=new Vue({
+            el:'#app5',
+            data:{
+                items:[
+                    {name:'test1'},
+                    {name:'test246'},
+                    {name:'test34'},
+                    {name:'zhangguolao4'}
+                ],
+                
+            },computed: {
+                sortItems:function (){
+                    return this.items.sort(function(a,b){
+                    return a.name.length < b.name.length;
+                    });
+                },
+                filterItems:function(){
+                    return this.items.filter(function(item){
+                    return item.name.match(/test/g);
+                    }
+                )}
+            }
+        });
+    </script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</body>
+<!-- v-if 和v-show 具有类似的功能，不过v-if 才是真正的条件渲染，它会根据表达式适当地销毁
+或重建元素及绑定的事件或子组件。若表达式初始值为false ，则一开始元素／组件并不会渲染，只
+有当条件第一次变为真时才开始编译。 
+而v-show 只是简单的css 属性切换，无论条件真与否，都会被编译。相比之下， v-if 更适合
+条件不经常改变的场景，因为它切换开销相对较大，而v-s how 适用于频繁切换条件。
+-->
+</html>
