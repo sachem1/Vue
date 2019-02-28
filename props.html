@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue 测试实例</title>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+
+<body>
+    <!-- 单向数据流 
+    注意，在javascript 中对象和数组是引用类型，指向同一个内存空间，所以props 是对象和数组时，
+    在子组件内改变是会影响父纽件的。
+    -->
+    <div id="app">
+        <my-component :init-count="2"></my-component>
+        <my-component2 :width="150"></my-component2>
+    </div>
+    <script>
+        Vue.component('my-component',{
+        props:['initCount'],
+        template:'<div>单向数据流:{{count}}</div>',
+        data:function(){
+            return {
+                count:this.initCount
+            }
+        }      
+    });
+    Vue.component('my-component2',{
+        props:['width'],
+        template:'<div :style="style">单向数据流:样式</div>',
+        computed: {
+            style:function(){
+            return {
+                width:this.width+'px'
+            }
+        }
+        }
+    })
+    var app=new Vue({
+    el:'#app'
+    })
+    </script>
+    <!-- 组件来自父级的数据传递 props 
+由于HTML 特性不区分大小写，当使用DOM 模板时，驼峰命名CcamelCase ）的
+props 名称要转为短横分隔命名C kebab-case ）
+-->
+    <div id="app4">
+        <my-component warning-Text="提示信息"></my-component>
+        <input type="text" v-model="parentMessage">
+        <my-component2 :message="parentMessage"></my-component2>
+        <my-component2 message="parentMessage"></my-component2>
+    </div>
+    <script>
+        Vue.component('my-component', {
+            props: ['warningText', 'message'],
+            template: '<div>{{warningText}} {{message}}</div>'
+        });
+
+        Vue.component('my-component2', {
+            props: ['message'],
+            template: '<div>{{message}}</div>'
+        });
+        var app4 = new Vue({
+            el: '#app4',
+            data: {
+                parentMessage: ''
+            }
+        });
+    </script>
+
+
+
+</body>
+
+</html>

@@ -11,7 +11,12 @@
 <body>
     <div id="app">
         <input type="text" @input="handleInput" placeholder="输入...">
+        <!-- 类似onchange -->
+        <input type="text" v-model.lazy="message" placeholder="输入...">
+
+        <input type="text" v-model.number="number" placeholder="输入...">
         <p>输入:{{ message }}</p>
+        <p>输入:{{ number }}</p>
     </div>
     <!-- 单选框,复选框,下拉框 -->
     <div id="app2">
@@ -50,7 +55,7 @@
             el: '#app',
             data: {
                 message: '',
-
+                number:0
             },
             methods: {
                 handleInput: function (e) {

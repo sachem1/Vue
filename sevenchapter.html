@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue 测试实例</title>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <my-component></my-component>
+    </div>
+    <script>
+        // Vue.component('my-component',{
+        //     template:'<div>这里是组件的内容{{name}}</div>'
+        // })
+        var child = {
+            template: '<div>这里是组件的内容{{name}}</div>'
+        }
+        var app = new Vue({
+            el: '#app',
+            data: {
+                name: 'wei again'
+            },
+            components: {
+                'my-component': child
+            }
+        })
+    </script>
+
+
+    <div id="app2">
+        <table>
+            <tbody is="my-component"></tbody>
+        </table>
+    </div>
+    <!-- 组件定义的两种方式 -->
+    <script>
+        Vue.component('my-component', {
+            // template: '<div>这里是组件的内容2</div>',
+            template: '<div>{{message}}</div>',
+            data:function(){
+                return {
+                    message:'组件内容3'
+                }
+            }
+        });
+
+        var app2=new Vue({
+            el:'#app2'
+        });
+    </script>
+
+<!-- 组件公用,且互不影响 -->
+<div id="app3">    
+        <my-component></my-component>
+        <my-component></my-component>
+        <my-component></my-component>
+</div>
+<script>
+    Vue.component('my-component', {
+        template: '<button @click="counter++">{{counter}}</button>',
+        data: function () {
+            return {
+                counter:0
+            }
+        }
+    });
+
+    var app3 = new Vue({
+        el: '#app3'
+    });
+</script>
+<!-- 组件来自父级的数据传递 props 
+由于HTML 特性不区分大小写，当使用DOM 模板时，驼峰命名CcamelCase ）的
+props 名称要转为短横分隔命名C kebab-case ）
+-->
+<div id="app4">
+    <my-component warning-Text="提示信息"></my-component>
+    <input type="text" v-model="parentMessage">
+    <my-component2 :message="parentMessage"></my-component2>
+    <my-component2 message="parentMessage"></my-component2>
+</div>
+<script>
+    Vue.component('my-component',{
+        props:['warningText','message'],
+        template:'<div>{{warningText}} {{message}}</div>'
+    });
+
+     Vue.component('my-component2', {
+            props: ['message'],
+            template: '<div>{{message}}</div>'
+        });
+    var app4=new Vue({
+        el:'#app4',
+        data:{
+            parentMessage:''
+        }
+    });
+</script>
+
+
+
+</body>
+
+</html>

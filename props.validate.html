@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue 测试实例</title>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+
+<body>
+    <!-- 单向数据流 
+    注意，在javascript 中对象和数组是引用类型，指向同一个内存空间，所以props 是对象和数组时，
+    在子组件内改变是会影响父纽件的。
+    -->
+    <div id="app">
+        <input type="text" v-model="count">
+        <my-component :init-count="count"></my-component>
+    </div>
+    <script>
+        Vue.component('my-component', {
+            props: {
+                //必须是数字类型
+                initCount: Number,
+                //必须是字符串或数字类型
+                propB: [String, Number],
+                //布尔值，如果没有定义，默认值就是true
+                propC: {
+                    type: Boolean,
+                    default: true
+                },
+                //数字，而且是必传
+                propD: {
+                    type: Number,
+                    required: true
+                },
+                //如果是数组或对象，默认值必须是一个函数来返回
+                propE: {
+                    type: Array,
+                    default: function () {
+                        return [];
+                    }
+                },
+                //自定义一个验证函数
+                propF: {
+                    validator: function (value) {
+                        return value > 10;
+
+                    }
+                }
+            },
+            template: '<div>props验证:{{initCount}}</div>',
+            data: function () {
+                return {
+                    count: 0
+                }
+            }
+        });
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                count: 'qq'
+            }
+        })
+    </script>
+
+
+
+</body>
+
+</html>
