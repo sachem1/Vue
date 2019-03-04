@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue 测试实例</title>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <children-component>
+            <!-- <slot>
+                <p>分发的内容</p>
+                <p>更多的内容</p>
+            </slot> -->
+        </children-component>
+    </div>
+    <script>
+        var component = {
+            template: '<div>\
+                    <slot>\
+                        <p>如果父组件没有插入内容,我将作为默认出现</p>\
+                    </slot>\
+                </div>'
+        }
+        var app = new Vue({
+            el: '#app',
+            components: {
+                'children-component': component
+            },
+            data: {
+                name: 'ceshi'
+            }
+        })
+    </script>
+
+
+
+<div id="app2">
+    <children-component>
+       <h2 slot="header">标题</h2>
+    </children-component>
+</div>
+<script>
+    var component = {
+        template: '<div>\
+                    <slot>\
+                        <p>如果父组件没有插入内容,我将作为默认出现</p>\
+                    </slot>\
+                </div>'
+    }
+    var app = new Vue({
+        el: '#app2',
+        components: {
+            'children-component': component
+        },
+        data: {
+            name: 'ceshi'
+        }
+    })
+</script>
+</body>
+
+</html>

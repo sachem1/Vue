@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue event实例</title>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ message }}</p>
+        <my-component></my-component>
+    </div>
+    <script>
+        var bus = new Vue();
+        var component = {
+            template: '<div>\
+            <button @click="handleEvent">传递事件</button>\
+            </div>',
+            methods: {
+                handleEvent: function () {
+                    bus.$emit('omessage', "来自组件my-component的内容");
+                },
+
+            },
+        }
+
+        var app = new Vue({
+            el: '#app',
+            components: {
+                'my-component': component
+            },
+            data: {
+                message: ''
+            },
+            methods: {
+                handleGetTotal: function (total) {
+                    this.totalCount = total;
+                }
+            },
+            mounted: function () {
+                var _this = this;
+                bus.$on('omessage', function (msg) {
+                    _this.message = msg;
+                });
+            },
+        })
+    </script>
+
+    <div id="app2">
+        <button @click="handleRef">通过ref 获取子组件实例</button>
+        <component-a ref="comA"></component-a>
+    </div>
+    <script>
+        var componentA = {
+            template: '<div>子组件</div>',
+            data: function () {
+                return {
+                    message: '子组件内容'
+                }
+            }
+        }
+
+        var app2 = new Vue({
+            el: '#app2',
+            components: {
+                'component-a': componentA
+            },
+            methods: {
+                handleRef: function () {
+                    var msg = this.$refs.comA.message;
+                    console.log(msg);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
