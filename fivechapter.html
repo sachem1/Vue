@@ -44,16 +44,16 @@
     </div>
     <!-- v-for -->
     <div id='app5'>
-            <ul>
-                <li v-for="(item, index) in filterItems" :key="index">{{index}}--{{item.name}}</li>
-            </ul>
-            <span v-for="(item, index) in 10" :key="index">{{item}} </span>
+        <ul>
+            <li v-for="(item, index) in filterItems" :key="index">{{index}}--{{item.name}}</li>
+        </ul>
+        <span v-for="(item, index) in 10" :key="index">{{item}} </span>
 
-            <ul>
-                    <li v-for="(item, index) in sortItems" :key="index">{{index}}--{{item.name}}</li>
-            </ul>
-        </div>
-        <!-- 方法与事件 -->
+        <ul>
+            <li v-for="(item, index) in sortItems" :key="index">{{index}}--{{item.name}}</li>
+        </ul>
+    </div>
+    <!-- 方法与事件 -->
     <div id='app6'>
         点击次数:{{counter}}
         <button @click="counter++"> +1 </button>
@@ -61,13 +61,13 @@
     </div>
 
     <script>
-        var app6 =new Vue({
-            el:'#app6',
-            data:
-            {
-                counter:0
-            },methods:{
-                handleClick:function(message,event){
+        var app6 = new Vue({
+            el: '#app6',
+            data: {
+                counter: 0
+            },
+            methods: {
+                handleClick: function (message, event) {
                     event.preventDefault();
                     window.alert(message);
                 }
@@ -104,34 +104,42 @@
             },
         });
 
-        var app4=new Vue({
-            el:'#app4',
-            data:{
-                status:2
+        var app4 = new Vue({
+            el: '#app4',
+            data: {
+                status: 2
             }
         });
 
-        var app5=new Vue({
-            el:'#app5',
-            data:{
-                items:[
-                    {name:'test1'},
-                    {name:'test246'},
-                    {name:'test34'},
-                    {name:'zhangguolao4'}
+        var app5 = new Vue({
+            el: '#app5',
+            data: {
+                items: [{
+                        name: 'test1'
+                    },
+                    {
+                        name: 'test246'
+                    },
+                    {
+                        name: 'test34'
+                    },
+                    {
+                        name: 'zhangguolao4'
+                    }
                 ],
-                
-            },computed: {
-                sortItems:function (){
-                    return this.items.sort(function(a,b){
-                    return a.name.length < b.name.length;
+
+            },
+            computed: {
+                sortItems: function () {
+                    return this.items.sort(function (a, b) {
+                        return a.name.length < b.name.length;
                     });
                 },
-                filterItems:function(){
-                    return this.items.filter(function(item){
-                    return item.name.match(/test/g);
-                    }
-                )}
+                filterItems: function () {
+                    return this.items.filter(function (item) {
+                        return item.name.match(/test/g);
+                    })
+                }
             }
         });
     </script>
@@ -147,4 +155,5 @@
 而v-show 只是简单的css 属性切换，无论条件真与否，都会被编译。相比之下， v-if 更适合
 条件不经常改变的场景，因为它切换开销相对较大，而v-s how 适用于频繁切换条件。
 -->
+
 </html>
