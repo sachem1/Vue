@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Vue 动态组件</title>
+  <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <component :is="currentView"></component>
+    <button @click="handleChangeView('A')">切换到A</button>
+    <button @click="handleChangeView('B')">切换到B</button>
+    <button @click="handleChangeView('C')">切换到C</button>
+
+  </div>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        currentView: 'comA'
+      },
+      methods: {
+        handleChangeView: function (component) {
+          this.currentView = 'com' + component;
+        }
+      },
+      components: {
+        comA: {
+          template: '<div>组件A</div>'
+        },
+        comB: {
+          template: '<div>组件B</div>'
+        },
+        comC: {
+          template: '<div>组件C</div>'
+        }
+      }
+    })
+
+  </script>
+
+
+  <div id="app2">
+    <div id="div" v-if="showDiv">这是一段文本</div>
+    <button @click="getText"> 获取div 内容</button>
+  </div>
+  <script>
+    var app2 = new Vue({
+      el: '#app2',
+      data: {
+        showDiv: false
+      },
+      methods: {
+        getText: function () {
+          this.showDiv = true;
+          this.$nextTick(function () {
+            var text = document.getElementById('div').innerHTML;
+            console.log(text);
+          });
+        }
+      }
+})
+//$nextTick 就是用来知道什么时候DOM 更新完成的，
+
+
+  </script>
+
+  <div id="app3">
+    <my-component3>
+      <script type="text/x-template" id="my-component3">
+        <div> 这是组件的内容</div>
+      </script>
+    </my-component3>
+  </div>
+  <script>
+      var app3=new Vue({
+        el:'#app3',
+        components:{
+            'my-component3':'#my-component'
+        }
+      });
+  </script>
+</body>
+
+</html>

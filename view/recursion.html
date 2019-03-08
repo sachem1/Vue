@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Vue 递归组件</title>
+  <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <child-component>
+
+    </child-component>
+  </div>
+  <script>
+    var component = {
+      name: "child-component",
+      props: {
+        count: {
+          type: Number,
+          default: 1
+        }
+      },
+      template: '\
+        <div class="child">\
+            <child-component :count="count+1"\
+            v-if="count < 3"><div>这里是组件的内容</div></child-component>\
+            </div>\
+        '
+    }
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: '',        
+        name: ''
+      },
+      methods: {
+        handleInput: function (e) {
+          this.message = e.target.value;
+        }
+      },
+      components: {
+        'child-component': component
+      }
+    });
+
+  </script>
+
+
+
+  <div id="app2">
+    <child2-component inline-template>
+      <div>
+        <h3>在父组件中定义子组件的模版</h3>
+        <p>{{message}}</p>
+        <p>{{msg}}</p>
+      </div>
+    </child2-component>
+  </div>
+  <script>
+    var component2 = {
+      data: function () {
+        return {
+          msg: "在子组件声明的数据!"
+        }
+      }
+    }
+    var app2 = new Vue({
+      el: '#app2',
+      data: {
+        message: '在父组件中声明的数据',
+        name: ''
+      },
+      components: {
+        'child2-component': component2
+      }
+    });
+
+  </script>
+</body>
+
+</html>
